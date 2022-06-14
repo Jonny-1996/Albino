@@ -10,15 +10,27 @@ class TelegramController extends Controller
 {
     public function sendSms(Request $request){
         
-        $apiBotToken = "5476361510:AAE4RWNctlUNmWq_0qVFUR4a7ASxpYQCOts";
+        try {
+            $apiBotToken = "5476361510:AAE4RWNctlUNmWq_0qVFUR4a7ASxpYQCOts";
 
-        foreach ($request->list as $value) {
-            $data = [
-                'chat_id' => $value['chat_id'],
-                'text' => $value['text']
-            ];
+            foreach ($request->list as $value) {
+                $data = [
+                    'chat_id' => $value['chat_id'],
+                    'text' => $value['text']
+                ];
 
-            Http::post('https://api.telegram.org/bot'.$apiBotToken.'/sendMessage', $data);    
+                Http::post('https://api.telegram.org/bot'.$apiBotToken.'/sendMessage', $data);    
+            }
+
+            return response()->json([
+                'success' => "ok"
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error' => "Iltimos qaytadan urunib ko'ring!"
+            ]);
         }
+
+        
     }
 }
